@@ -3,9 +3,8 @@ using System.Linq;
 using Autodesk.Navisworks.Api;
 using Autodesk.Navisworks.Api.Plugins;
 
-namespace NavisworksSearchSets
+namespace PM.Navisworks.SearchSets
 {
-
     [Plugin("PMPK.SearchSets.Create",
         "PMPK",
         ToolTip = "Create Search Sets based on available categories",
@@ -15,7 +14,7 @@ namespace NavisworksSearchSets
         public override int Execute(params string[] parameters)
         {
             var doc = Application.ActiveDocument;
-            
+
             var allItemsSearch = new Search();
             allItemsSearch.Selection.SelectAll();
             allItemsSearch.Locations = SearchLocations.DescendantsAndSelf;
@@ -37,15 +36,16 @@ namespace NavisworksSearchSets
                 {
                     var title = element.PropertyCategories.FindPropertyByDisplayName("Document", "Title");
                     var titleValue = title.Value.ToString().Replace($"{title.Value.DataType.ToString()}:", "");
-                    
+
                     var category = element.PropertyCategories.FindPropertyByDisplayName("Element", "Category");
                     var categoryValue = category.Value.ToString().Replace($"{category.Value.DataType.ToString()}:", "");
-                    
+
                     if (titleValue.Contains(model))
                     {
                         categoryCollection.Add(categoryValue);
                     }
                 }
+
                 modelCollections.Add(model, categoryCollection);
             }
 
@@ -60,7 +60,7 @@ namespace NavisworksSearchSets
                     search.SearchConditions.Add(titleCondition.DisplayStringContains(discipline.Key));
                     var categoryCondition = SearchCondition.HasPropertyByDisplayName("Element", "Category");
                     search.SearchConditions.Add(categoryCondition.EqualValue(VariantData.FromDisplayString(category)));
-                    
+
                     search.Selection.SelectAll();
                     search.Locations = SearchLocations.DescendantsAndSelf;
 
@@ -69,7 +69,7 @@ namespace NavisworksSearchSets
                     Application.ActiveDocument.SelectionSets.AddCopy(searchSet);
                 }
             }
-            
+
             return 0;
         }
     }

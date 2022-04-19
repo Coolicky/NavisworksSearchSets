@@ -4,7 +4,7 @@
         <OutputType>Exe</OutputType>
         <TargetFramework>net47</TargetFramework>
         <Nullable>disable</Nullable>
-        <Configurations>Release;Debug</Configurations>
+        <Configurations>Release;Debug;Debug_2018;Debug_2020;Debug_2021;Debug_2022;Release_2018;Release_2020;Release_2021;Release_2022</Configurations>
         <Platforms>x64</Platforms>
     </PropertyGroup>
 
